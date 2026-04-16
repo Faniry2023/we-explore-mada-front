@@ -1,0 +1,88 @@
+<app-header></app-header>
+<div class="container">
+    <div class="banni">
+        <img src="test/isalo.jpg" alt="">
+        <div class="val">
+            <div class="logo">
+                <img src="logo/logo.png" alt="">
+            </div>
+            <div class="info">
+                <div class="titre"><h1>🏔️ Les grands classiques 🏔️</h1></div>
+                <div class="sous-titre"><h3>Le Sud de Mada</h3></div>
+            </div>
+        </div>
+    </div>
+    <div class="sud-est">
+        <div class="selection">
+            <section>
+                <mat-button-toggle-group (change)="data_type.set($event.value)" [value]="data_type()">
+                <mat-button-toggle value="bso" checked="true">Le Sud de Mada</mat-button-toggle>
+                <mat-button-toggle value="bse">La capitale et ses périphérique</mat-button-toggle>
+                <mat-button-toggle value="bse">L'Est de MAD</mat-button-toggle>
+                <mat-button-toggle value="bse">Le Nord de Mada</mat-button-toggle>
+                </mat-button-toggle-group>
+            </section>
+        </div>
+        <div class="titre">
+            <div class="circle"></div>
+            <h1>Le Sud de Mada</h1>
+        </div>
+        <div class="desc">
+            <p>Pendant 25 jours, les voyageurs explorent une succession de panoramas exceptionnels : plages sauvages, forêts luxuriantes, montagnes escarpées, villages traditionnels et parcs naturels préservés. Le circuit alterne entre randonnées, rencontres culturelles, découvertes gastronomiques locales et moments de détente.</p>
+        </div>
+        <div class="valeur-lieux">
+            <div class="gauche-menu">
+                <a>Antananarivo</a>
+                <a>Bekapoka</a>
+                <a>Morombe</a>
+                <a>Andavadoaka</a>
+                <a>Ambatomilo</a>
+                <a>Salary</a>
+                <a>Antananarivo</a>
+                <a>Bekapoka</a>
+                <a>Morombe</a>
+                <a>Andavadoaka</a>
+                <a>Ambatomilo</a>
+                <a>Salary</a>
+                <a>Antananarivo</a>
+                <a>Bekapoka</a>
+                <a>Morombe</a>
+                <a>Andavadoaka</a>
+                <a>Ambatomilo</a>
+                <a>Salary</a>
+            </div>
+            <div class="droite-valeur">
+                <div class="les-images">
+                    <div class="one-img"><img [src]="images[imgSelect()]" alt=""></div>
+                    <div class="all-img">
+                        @for (item of images; track $index) {
+                            <a (click)="changeImage($index)">
+                                <div class="img">
+                                    <img [src]="item" alt="">
+                                </div>
+                                
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="description"><p>Antananarivo, capitale de Madagascar, est le cœur politique, économique et culturel du pays. Située sur les Hautes Terres centrales, la ville s’étend sur plusieurs collines, ce qui lui donne un relief marqué et des panoramas uniques.
+
+On l’appelle souvent “Tana”. Elle mélange histoire royale, architecture coloniale, quartiers populaires animés et zones modernes. Le climat y est plus frais que sur la côte, surtout le soir.
+
+C’est le point de départ idéal pour découvrir la culture malgache : marchés traditionnels, artisanat, gastronomie locale et monuments historiques.</p></div>
+            
+                <div class="description-specifique">
+                    <p><span>Fiteny : </span> Merina</p>
+                    <p><span>Faritra : </span> Analamanga</p>
+                    <p><span>Totra : </span> Renivohitra</p>
+                </div>
+            <div class="site-tour">
+                <a>Site touristique</a>
+                <a class="yt"><img src="test/youtube.png" alt=""></a>
+            </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<app-footer></app-footer>

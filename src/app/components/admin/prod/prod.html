@@ -1,0 +1,291 @@
+<header>
+    <app-header></app-header>
+</header>
+@if (!prodStore.loading()) {
+    <div class="container">
+
+        <section>
+            <mat-button-toggle-group (change)="data_type.set($event.value)" [value]="data_type()">
+            <mat-button-toggle value="Accueil" checked="true">Accueil</mat-button-toggle>
+            <mat-button-toggle value="Villes">Villes</mat-button-toggle>
+            <mat-button-toggle value="Sites">Sites</mat-button-toggle>
+            </mat-button-toggle-group>
+        </section>
+    @if (data_type() == "Accueil") {
+        <div class="lst">
+            <div class="liste-prod">
+                @for (item of prodStore.produits(); track $index) {
+                    <a [class.active]="prodSel()==item.id" (click)="selectProd(item.id)">{{item.nom_produit}}</a>
+                }
+            </div>
+            <!-- <a (click)="openAddProd()"><img src="test/aj.png" alt=""></a> -->
+        </div>
+
+        <!-- aucun info produit -->
+    @if (addPartieProduit() || isPartieUpdate()) {
+        <div class="add-partie">
+            <form [formGroup]="formGroupePartie" (ngSubmit)="savePartie()">
+                <h1>Ajouter un partie</h1>
+                <input type="text" placeholder="Titre" formControlName="titre">
+                <input type="text" placeholder="sous-itre" formControlName="sous_titre">
+                <textarea name="" placeholder="description" formControlName="description"></textarea>
+                <input type="number" placeholder="nombre du jours" formControlName="nb_jours">
+                <div class="liste-add">
+                    <div class="liste">
+                        <input type="text" placeholder="recherche" class="input-rchr">
+                        @for (item of villeStore.villes(); track $index) {
+                            <a (click)="saveVilleSelect(item)" [class.slc]="(id_ville_select().includes(item.id))" style="cursor: pointer;">{{item.nom}}</a>
+                        }
+                     
+                       @if (partieStore.loading()) {
+                         <mat-progress-spinner 
+                            diameter="30"
+                            strokeWidth="5"
+                            mode="indeterminate">
+                        </mat-progress-spinner>
+                        chargement...
+                       }
+
+                    </div>
+                    <div class="add">
+                        @for (item of partie_ville_select(); track $index) {
+                            <a (click)="cancelOneVille(item)"  style="cursor: pointer;">{{item.nom}}</a>
+                        }@if(partie_ville_select().length <= 0){
+                            Aucun ville séléctionnéee
+                        }
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                    @if (partieStore.loading()) {
+                        <mat-progress-spinner 
+                            diameter="30"
+                            strokeWidth="5"
+                            mode="indeterminate">
+                        </mat-progress-spinner>
+                    }@else {
+                        <button type="submit">
+                            @if(isPartieUpdate()){
+                                Modifier
+                            }
+                            @else {
+                                Enregistrer
+                            }
+                        </button>
+                        <button type="button" (click)="actioncancelParti()">Annuler</button>
+                    }
+                </div>
+            </form>
+        </div> 
+    }
+        <!-- fin aucun produi -->
+
+
+
+        <!-- info produit existant -->
+         @if(prodSel() != ""){
+        <div class="info-prod">
+            @if(!addPartieProduit() && !isPartieUpdate()){
+                <a (click)="ajoutParti()" class="add-part">Ajouter un nouveau partie</a>
+            }
+            @for (item of listOfProdSel(); track $index) {
+                <div class="one-part">
+                    <h3>{{item.partie.titre}}</h3>
+                    <div class="description">
+                       {{item.partie.description}}
+                    </div>
+                    <div class="description">
+                       {{item.partie.id_produit}}
+                    </div>
+                    <div class="nb-jours">{{item.partie.nb_jours}} jours</div>
+                    <div class="liste-ville">
+                        @for (item2 of item.villes; track $index) {
+                            <a> {{item2.nom}} </a>
+                        }
+                        <a class="add-lieux"><img src="test/aj2.png" alt=""></a>
+                    </div>
+                    <div class="btn">
+                        @if (partieStore.loading()) {
+                        <mat-progress-spinner 
+                            diameter="30"
+                            strokeWidth="5"
+                            mode="indeterminate">
+                        </mat-progress-spinner>
+                        }@else {
+                            <a class="mod" (click)="update(item.partie.id)">Modifier</a>
+                            <a class="sup" (click)="deletePartie(item.partie.id)">Supprimer</a>
+                        }
+
+                    </div>
+                    <hr>
+                </div>
+            }
+            @if (partieStore.liste_vue_partie().length <= 0) {
+                <h3>Aucun partie...</h3>
+            }
+        </div> 
+        }@else {
+            <p>Veuillez séléctionner un produit</p>
+        }
+        <!-- fin info produit existant -->
+
+
+    }@else if (data_type() == "Villes") {
+
+    <!-- ~###########"#####     V   I   L   L   E    ################" -->
+         <a (click)="afficher()">AFFICHER LE DEF SPE</a>
+        <h1>Ajouter une ville</h1>
+        <div class="ville">
+            <div class="liste-ville">
+                @for (item of villeStore.villes(); track $index) {
+                    <a [class.select]="item.id == villeSelected()?.id" (click)="actionSelectVille(item)">{{item.nom}}</a>
+                }
+                
+            </div>
+            <form [formGroup]="formGroupVille" (ngSubmit)="saveVille()" class="form-ville">
+                <input type="text" placeholder="nom du ville" formControlName="nom">
+                <textarea name="" id="" placeholder="Déscription" formControlName="description"></textarea>
+                <a (click)="openAddDefSpe()" class="add-des">Déscription spécifique</a>
+                @for (item of villeStore.def_spe_temps() | keyvalue; track $index) {
+                    <div class="n-v">
+                        <h4>{{item.key}} :</h4>
+                        <p>{{item.value}}</p>
+                        <a style="cursor: pointer;" (click)="deleteDefSpe(item.key)"><mat-icon style="color: red;">delete</mat-icon></a>
+                    </div>
+                }
+                <input type="text" placeholder="lien youtube" formControlName="youtube">
+                <input type="file" #fileInput hidden multiple accept="image/*" (change)="onFileSelectedVille($event)">
+                <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">
+                    <mat-icon>cloud_upload</mat-icon>
+                    Upload Images
+                </button>
+                <button class="save" type="submit">
+                    @if (villeStore.loading()) {
+                        <mat-progress-spinner 
+                            class="white-spinner-ville"
+                            diameter="30"
+                            strokeWidth="5"
+                            mode="indeterminate">
+                        </mat-progress-spinner>
+                    }@else{
+                        @if (isUpdateVille()) {
+                            Modifier
+                        }@else {
+                            Enregistrer
+                        }
+                    }
+                </button>
+                @if (isUpdateVille()) {
+                        <a 
+                    style="background-color: rgb(255, 137, 137);
+                            color: rgb(105, 0, 0);
+                            padding: 5px 10px;
+                            border-radius: 10px;
+                            cursor: pointer;"
+                    (click)="CancelUpdate()"
+                    >Annuler</a>
+                        <a 
+                    style="background-color: rgb(255, 137, 137);
+                            color: rgb(105, 0, 0);
+                            padding: 5px 10px;
+                            border-radius: 10px;
+                            cursor: pointer;"
+                    (click)="delete(villeSelected()?.id!)"
+                    >Supprimer</a>
+                }
+                <div class="img">
+                    <img [src]="imagesPreviewVille()[0]" alt="">
+                    <div class="view">
+                        @if (imagesPreviewVille().length > 0){
+                            <p>+{{imagesFilesVille().length - 1}}</p>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    <!-- ~###########"#####     F   i  n         V   I   L   L   E    ################" -->
+
+    }@else {
+
+    <!-- ~###########"#####     SITE   ################" -->
+ 
+        <h1>Ajout d'un site turistique</h1>
+        <div class="ville">
+            <div class="liste-ville">
+                @if(villeStore.villes().length > 0){
+                    @for (item of villeStore.villes(); track $index) {
+                        <a [class.select]="item.id == villeSelectSite()?.id" (click)="actionSelectVilleInSite(item)">{{item.nom}}</a>
+                    }
+                }@else {
+                    <h2>Aucun site</h2>
+                }
+                
+            </div>
+            @if (villeSelectSite()) {
+                <form [formGroup]="formGroupSite" (ngSubmit)="saveSite()" class="form-ville">
+                    <h3 style="margin: 0;">{{villeSelectSite()?.nom}}</h3>
+                    <input type="text" placeholder="nom du site" formControlName="nom">
+                    <textarea name="" id="" placeholder="Déscription" formControlName="description"></textarea>
+                    <input type="text" placeholder="lien youtube" formControlName="youtube">
+                    <input type="file" #fileInput hidden multiple accept="image/*" (change)="onFileSelectedSite($event)">
+                    <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">
+                        <mat-icon>cloud_upload</mat-icon>
+                        Upload Images
+                    </button>
+                    <button class="save" type="submit">
+                        @if (siteStore.loading()) {
+                            <mat-progress-spinner 
+                                class="white-spinner-ville"
+                                diameter="30"
+                                strokeWidth="5"
+                                mode="indeterminate">
+                            </mat-progress-spinner>
+                        }@else{
+                            @if(isUpdateSite()){
+                                Modifier
+                            }@else{
+                                Enregistrer
+                            }
+                        }
+                    </button>
+                    @if (isUpdateSite()) {
+                        <a 
+                    style="background-color: rgb(255, 137, 137);
+                            color: rgb(105, 0, 0);
+                            padding: 5px 10px;
+                            border-radius: 10px;
+                            cursor: pointer;"
+                    (click)="deleteSite(siteStore.siteEtImage()?.site?.id!)"
+                    >Supprimer</a>
+                    }
+                    <div class="img">
+                        <img [src]="imagesPreviewSite()[0]" alt="">
+                        <div class="view">
+                            @if (imagesPreviewSite().length > 0) {
+                                <p>
+                                + {{imagesFilesSite().length - 1}}
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </form>
+            }@else {
+                <h5>Selectionner une ville</h5>
+            }
+        </div>
+
+    <!-- ~###########"#####     F   i  n         S  I  T  E    ################" -->
+    }
+
+    </div>
+}@else {
+    <div class="load">
+        <mat-progress-spinner 
+            class="white-spinner"
+            diameter="80"
+            strokeWidth="15"
+            mode="indeterminate">
+        </mat-progress-spinner>
+        <p>Chargement...</p>
+    </div>
+}

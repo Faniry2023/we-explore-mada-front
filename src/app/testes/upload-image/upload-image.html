@@ -1,0 +1,29 @@
+<div class="upload-container">
+
+  <!-- Input caché -->
+  <input
+    type="file"
+    #fileInput
+    hidden
+    multiple
+    accept="image/*"
+    (change)="onFileSelected($event)"
+  />
+
+  <!-- Bouton stylé -->
+  <button mat-raised-button color="primary" (click)="fileInput.click()">
+    <mat-icon>cloud_upload</mat-icon>
+    Upload Images
+  </button>
+
+  <!-- Preview images -->
+  <div class="preview-container" *ngIf="imagesPreview.length > 0">
+    @for (item of imagesPreview; track $index) {
+        <div class="image-box">
+        <img [src]="item" />
+        </div>
+    }
+
+  </div>
+
+</div>

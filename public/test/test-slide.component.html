@@ -1,0 +1,74 @@
+<app-header-test></app-header-test>
+<div class="container">
+  <div class="slider-container">
+    <div class="slider-wrapper" [style.transform]="getTransform()">
+      @for (image of images; track $index) {
+          <img [src]="image" class="slide" alt="image" />
+      }
+    </div>
+
+    <!-- Boutons -->
+    <div class="couv-img">
+      <div class="logo"><img src="nanty/logo.png" alt=""></div>
+      <div class="desc">
+        <div class="titre">Discover the Real Madagascar</div>
+        <div class="para">Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar</div>
+        <a>Booked a trip</a>
+      </div>
+    </div>
+  </div>
+  <div class="product">
+        <div class="one-prod">
+          <div class="title">
+            Adventure
+          </div>
+        </div>
+        <div class="one-prod">
+          <div class="title">
+            Classique
+          </div>
+        </div>
+        <div class="one-prod">
+          <div class="title">
+            Randonnées
+          </div>
+        </div>
+  </div>
+</div>
+<main>
+  <div class="titre" [@slideIn]="visibleItems[0] ? 'visible' : 'hidden'">
+    Our products
+  </div>
+  <section id="adventure" [@slideIn]="visibleItems[1] ? 'visible' : 'hidden'">
+    <div class="gauche">
+      <div class="titre-prod"><h1>Adventure</h1></div>
+      <div class="description"><p>
+        Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar. Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar. Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar
+      </p></div>
+      <div class="btn"><a>Learn more</a></div>
+    </div>
+    <div class="droite"><img src="nanty/kon.jpg" alt=""></div>
+  </section>
+  <hr>
+  <section id="Classique" [@slideIn]="visibleItems[2] ? 'visible' : 'hidden'">
+      <div class="droite"><img src="nanty/isalo.jpg" alt=""></div>
+    <div class="gauche">
+      <div class="titre-prod"><h1>Classique</h1></div>
+      <div class="description"><p>
+        Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar. Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar. Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar
+      </p></div>
+      <div class="btn"><a>Learn more</a></div>
+    </div>
+  </section>
+  <hr>
+  <section id="randonne" [@slideIn]="visibleItems[3] ? 'visible' : 'hidden'">
+    <div class="gauche">
+      <div class="titre-prod"><h1>Randonnées</h1></div>
+      <div class="description"><p>
+        Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar. Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar. Experience breathtaking landscapes, unique wildlife, and authentic local culture with we explore Madagascar
+      </p></div>
+      <div class="btn"><a>Learn more</a></div>
+    </div>
+    <div class="droite"><img src="nanty/baobab.jpg" alt=""></div>
+  </section>
+</main>

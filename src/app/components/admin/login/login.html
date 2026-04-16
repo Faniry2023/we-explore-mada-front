@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="log-info">
+        <img src="logo/logo.png" alt="logo">
+        <h1>We explore mada</h1>
+    </div>
+    <form [formGroup]="form" (submit)="login()">
+        <input type="text" placeholder="nom d'utilisateur" formControlName="identifiant">
+        <input type="password" placeholder="mot de passe" formControlName="mdp">
+        <button type="submit" [disabled]="utilisateurStore.loading()">
+            @if (utilisateurStore.loading()) {
+                <mat-progress-spinner 
+                    class="white-spinner"
+                    diameter="20"
+                    strokeWidth="3"
+                    mode="indeterminate">
+                </mat-progress-spinner>
+            }@else {
+                Se connecter
+            }
+           
+        </button>
+        <!-- <button>Modifier</button> -->
+        <span>mot de passe oublié, envoyer par <a href="#">email?</a></span>
+        <a href="#">Retour</a>
+    </form>
+</div>

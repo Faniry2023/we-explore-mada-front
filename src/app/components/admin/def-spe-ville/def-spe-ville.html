@@ -1,0 +1,10 @@
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <h1>Déscription spécifique</h1>
+        <div class="input">
+            <input type="text" placeholder="Nom..." formControlName="nom">
+            <input type="text" placeholder="Valeur..." formControlName="valeur">
+        </div>
+        <button type="submit">Enregistrer</button>
+    </form>
+</div>

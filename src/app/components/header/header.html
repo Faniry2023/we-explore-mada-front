@@ -1,0 +1,42 @@
+<header>
+    <div class="logo">
+        <img src="logo/logo.png" alt="">
+    </div>
+    <div class="navbar">
+        <div class="line"></div>
+        <a (click)="setMenuMethode('home')" [class.active]="menuActive() == 'home'">Home</a>
+        <a (click)="setMenuMethode('rate')" [class.active]="menuActive() == 'rate'" (mouseenter)="rateHover.set(true)" (mouseleave)="rateLeave.set(true)">Rate <mat-icon>expand_more</mat-icon></a>
+        <a (click)="setMenuMethode('about')" [class.active]="menuActive() == 'about'">About</a>
+        <a (click)="setMenuMethode('contact')" [class.active]="menuActive() == 'contact'">Contact</a>
+        <div class="line"></div>
+    </div>
+    <div class="operation">
+        <div class="langue">
+            <select name="" id="">
+                <option value="">Francais</option>
+                <option value="">Anglais</option>
+                <option value="">Allemand</option>
+            </select>
+        </div>
+        <div class="btn">
+            <a>Contact us</a>
+        </div>
+    </div>
+    <div class="icon-menu" [class.side]="showMenu()">
+        <a (click)="actioShowMenu()"><img src="test/menu.png" alt=""></a>
+    </div>
+    <div class="menus" [class.active]="showMenu()">
+        <a class="x" (click)="actioShowMenu()"><img src="test/annuler.png" alt=""></a>
+        <a>Home</a>
+        <a>Rate</a>
+        <a>About</a>
+        <a>Contact</a>
+    </div>
+</header>
+ <!-- menu de Rate -->
+    <div class="menu-rate" [class.slide]="rateHover()" (mouseenter)="menuHover.set(true)" (mouseleave)="mouseleaveAndrateLeave(false)">
+        <a (click)="goTo('Aventure')">Aventures </a>
+        <a (click)="goTo('Classique')">Les grands classiques </a>
+        <a (click)="goTo('randonnees')">Les Randonnées </a>
+    </div>
+<!-- fin menu de rate -->

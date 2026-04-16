@@ -1,0 +1,36 @@
+.header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(20, 1, 109);
+    width: 100%;
+    .logo{
+        img{
+            width: 60px;
+            height: auto;
+        }
+    }
+    .info h1{
+        color: white;
+        margin: 0;
+        font-size: 15px;
+    }
+    .logout{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        img{
+            width: 30px;
+            height: auto;
+            cursor: pointer;
+        }
+        a{
+            background-color: rgb(211, 0, 0);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 3px 1px gray;
+        }
+    }
+}

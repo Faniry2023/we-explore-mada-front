@@ -1,0 +1,133 @@
+<app-header></app-header>
+<div class="container">
+    <div class="banni">
+        <img src="test/isalo.jpg" alt="">
+        <div class="val">
+            <div class="logo">
+                <img src="logo/logo.png" alt="">
+            </div>
+            <div class="info">
+                <div class="titre"><h1>🏔️ Aventure 🏔️</h1></div>
+                <div class="sous-titre"><h3>La boucle du Sud Ouest</h3></div>
+            </div>
+        </div>
+    </div>
+    <div class="sud-est">
+        <div class="selection">
+            @if(!clientVueStore.loading()){
+                <section>
+                    <mat-button-toggle-group (change)="selectOnePart($event.value)" [value]="data_type()">
+                    @for (item of clientVueStore.liste_vue_partie(); track $index) {
+                        <mat-button-toggle [value]="item.partie.id" [checked]="(item.partie.id == clientVueSelected()?.partie?.id)">{{item.partie.titre}}</mat-button-toggle>
+                    }
+                    </mat-button-toggle-group>
+                </section>
+            }@else {
+                <mat-progress-spinner 
+                    diameter="30"
+                    strokeWidth="5"
+                    mode="indeterminate">
+                </mat-progress-spinner>
+            }
+        </div>
+        <div class="titre">
+            <div class="circle"></div>
+            <h1>{{clientVueSelected()?.partie?.titre}} ({{clientVueSelected()?.partie?.nb_jours}} jours)</h1>
+        </div>
+        <div class="desc">
+            <p>{{clientVueSelected()?.partie?.description}}</p>
+        </div>
+        <div class="valeur-lieux">
+            <div class="gauche-menu">
+                <h3>
+                    @if (VilleOrSite() == "v") {
+                        {{clientVueStore.vue_partie()?.partie?.sous_titre}}
+                    }@else if(VilleOrSite() == "s"){
+
+                    }
+                </h3>
+                @for (item of clientVueSelected()?.villes; track $index) {
+                    <a (click)="selectVille(item.id)" [class.active]="(item.id == villeSelected()?.id)">{{item.nom}}</a>
+                }
+            </div>
+            <div class="droite-valeur">
+                @if(clientVueStore.loadingImg()){
+                        <mat-progress-spinner 
+                                    diameter="80"
+                                    strokeWidth="8"
+                                    mode="indeterminate">
+                                </mat-progress-spinner>
+                        }
+                <div class="les-images">
+                    @if(clientVueStore.liste_image()?.images?.length! <= 0){
+                        <h3>MADAGASCAR</h3>
+                        <div class="one-img"><img [src]="images[imgSelect()]" alt=""></div>
+                        <div class="all-img">
+                            @for (item of images; track $index) {
+                                <a (click)="changeImage($index)">
+                                    <div class="img">
+                                        <img [src]="item" alt="">
+                                    </div>
+                                    
+                                </a>
+                            }
+                        </div>
+                    }@else {
+                        <h3>
+                        @if(VilleOrSite() == "v"){
+                            {{villeSelected()?.nom}}
+                        }@else if (VilleOrSite() == "s") {
+                            {{siteSelected()?.nom}} ({{villeSelected()?.nom}})
+                        }
+                    </h3>
+                        <div class="one-img">
+                                @if (!clientVueStore.loadingImg()) {
+                                    <img [src]="'data:image/png;base64,' +imgSelect()" alt="">
+                                }
+                        </div>
+                        <div class="all-img">
+                            @for (item of clientVueStore.liste_image()?.images; track $index) {
+                                <a (click)="changeImage(item)">
+                                    <div class="img">
+                                        <img [src]="'data:image/png;base64,' +item" alt="">
+                                    </div>
+                                    
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+                
+                <div class="description"><p>
+                    @if(VilleOrSite() == "v"){
+                        {{villeSelected()?.description}}
+                    }@else if (VilleOrSite() == "s") {
+                        {{siteSelected()?.description}}
+                    }
+                    </p>
+                </div>
+                @if(VilleOrSite() == "v"){
+                    <div class="description-specifique">
+                        @for (item of clientVueStore.def_spe_temps() | keyvalue; track $index) {
+                            <p><span>{{item.key}} : </span> {{item.value}}</p>
+                        }
+                    </div>
+                }
+            @if(villeSelected() || siteSelected()){
+            
+            <div class="site-tour">
+                    @if(VilleOrSite() == "s"){
+                        <a (click)="rechargeVille('v')">Ville</a>
+                    }@else if(VilleOrSite()=="v"){
+                        
+                        <a (click)="rechargeVille('s')">Site touristique</a>
+                    }
+                <a class="yt"><img src="test/youtube.png" alt=""></a>
+            </div>
+            }
+            </div>
+        </div>
+        
+    </div>
+</div>
+<app-footer></app-footer>
